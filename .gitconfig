@@ -1,0 +1,9 @@
+[user]
+	name = Oleg Kandaurov
+	email = kandaurovoleg@gmail.com
+[color]
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+	ui = true

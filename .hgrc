@@ -1,0 +1,50 @@
+[ui]
+username = Oleg Kandaurov <KandaurovOleg@gmail.com>
+
+[web]
+allow_push = *
+push_ssl = false
+
+[extensions]
+hgsubversion = 
+hgext.extdiff =
+hgext.convert=
+hgext.mq =
+patchbomb=
+mq=
+graphlog=
+color=
+rebase=
+churn=
+progress=
+record=
+;convert=
+
+[hooks]
+
+[color]
+status.modified = magenta bold
+status.added = green bold
+status.removed = red bold
+status.deleted = cyan bold
+status.unknown = blue bold
+status.ignored = black bold
+diff.diffline = bold
+diff.extended = cyan bold
+diff.file_a = red bold
+diff.file_b = green bold
+diff.hunk = magenta
+diff.deleted = red bold
+diff.inserted = yellow  bold
+diff.changed = white
+diff.trailingwhitespace = bold red_background
+[diff]
+git = 1
+[extdiff]
+cmd.kdiff3 =
+
+[web]
+cacerts = 
+
+[trusted]
+users = root
