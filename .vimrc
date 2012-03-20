@@ -156,6 +156,8 @@ nnoremap X "_X
 vnoremap X "_X
 " Quickly close the current window
 nnoremap <leader>q :q<CR>
+" Close all windows
+nnoremap <leader>qa :qa<CR>
 " Yank/paste to the OS clipboard with ,y and ,p
 " FIXME: copy doesn't work
 nmap <leader>y "+y
