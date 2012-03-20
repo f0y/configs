@@ -1,0 +1,125 @@
+############################
+# Set/unset  shell options #
+############################
+setopt appendhistory
+setopt extendedhistory    # puts timestamps in the history
+setopt histallowclobber
+setopt histreduceblanks
+setopt incappendhistory
+setopt sharehistory
+setopt allexport
+setopt notify
+setopt pushdtohome
+unsetopt correct
+unsetopt correctall
+setopt longlistjobs
+setopt histignoredups
+setopt pushdsilent
+setopt autopushd
+setopt globdots
+setopt pushdminus
+setopt extendedglob
+setopt rcquotes
+setopt mailwarning
+unsetopt menucomplete
+setopt promptsubst
+setopt autolist
+unsetopt recexact
+unsetopt beep
+unsetopt autoresume
+unsetopt cdablevars
+unsetopt autocd
+unsetopt bgnice
+unsetopt autoparamslash
+unsetopt automenu
+
+# Autoload zsh modules when they are referenced
+zmodload -a zsh/stat stat
+zmodload -a zsh/zpty zpty
+zmodload -a zsh/zprof zprof
+
+[[ -s "/home/f0y/.rvm/scripts/rvm" ]] && source "/home/f0y/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+PATH="/opt/local/bin:/sbin:/usr/sbin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin/:$PATH"
+export GREP_COLOR='1;32'
+export GREP_OPTIONS='--color=auto'
+HISTFILE=$HOME/.zhistory
+HISTSIZE=99999
+SAVEHIST=99999
+PAGER='less'
+EDITOR='vim'
+autoload colors zsh/terminfo
+if [[ "$terminfo[colors]" -ge 8 ]]; then
+   colors
+fi
+for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
+   eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
+   eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
+   (( count = $count + 1 ))
+done
+
+bindkey -e
+
+# # --------------------------------------------------------------------
+# # aliases
+# # --------------------------------------------------------------------
+alias ll='ls -al'
+alias ls='ls --color=auto '
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -lrtha'
+
+##############
+# Completion #
+##############
+# Completion caching
+zstyle ':completion::complete:*' use-cache on
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
+
+#Completion Options
+zstyle ':completion:*:match:*' original only
+zstyle ':completion::prefix-1:*' completer _complete
+zstyle ':completion:predict:*' completer _complete
+zstyle ':completion:incremental:*' completer _complete _correct
+zstyle ':completion:*' completer _complete _prefix _correct _prefix _match _approximate
+
+# Path Expansion
+zstyle ':completion:*' expand 'yes'
+zstyle ':completion:*' squeeze-shlashes 'yes'
+zstyle ':completion::complete:*' '\\'
+
+zstyle ':completion:*:*:*:default' menu select=1
+zstyle ':completion:*:*:default' force-list always
+
+export ZLSCOLORS="${LS_COLORS}"
+zmodload  zsh/complist
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*:approximate:*' max-errors 1 numeric
+
+zstyle ':completion:*:*:kill:*' menu yes select
+zstyle ':completion:*:processes' command 'ps -au$USER'
+
+zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
+ /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
+
+# Group matches and Describe
+zstyle ':completion:*:matches' group 'yes'
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*:options' auto-description '%d'
+zstyle ':completion:*:descriptions' format $'\e[01;33m -- %d --\e[0m'
+zstyle ':completion:*:messages' format $'\e[01;35m -- %d --\e[0m'
+zstyle ':completion:*:warnings' format $'\e[01;31m -- No Matches Found --\e[0m'
+#######################################################################
+
+# Load the prompt theme system
+autoload -U promptinit
+promptinit
+prompt adam2
+
+# Load the completion system
+autoload -U compinit
+compinit
