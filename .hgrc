@@ -1,12 +1,13 @@
 [ui]
 username = Oleg Kandaurov <KandaurovOleg@gmail.com>
+merge=vimdiff
 
 [web]
 allow_push = *
 push_ssl = false
 
 [extensions]
-hgsubversion = 
+hgsubversion =
 hgext.extdiff =
 hgext.convert=
 hgext.mq =
@@ -18,7 +19,6 @@ rebase=
 churn=
 progress=
 record=
-;convert=
 
 [hooks]
 
@@ -38,13 +38,11 @@ diff.deleted = red bold
 diff.inserted = yellow  bold
 diff.changed = white
 diff.trailingwhitespace = bold red_background
+
 [diff]
 git = 1
-[extdiff]
-cmd.kdiff3 =
 
-[web]
-cacerts = 
+[merge-tools]
+vimdiff.executable = vim
+vimdiff.args = -d $base $local $output $other +close +close
 
-[trusted]
-users = root
