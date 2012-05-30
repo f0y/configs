@@ -15,5 +15,6 @@
 	d = difftool
 [core]
 	pager = cat
+	editor = vim
 [merge]
 	tool = vimdiff
