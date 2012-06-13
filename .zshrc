@@ -14,3 +14,4 @@ EDITOR='vim'
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 unsetopt auto_cd
 unsetopt correct_all
+alias s='setsid sublime'
