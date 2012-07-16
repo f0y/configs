@@ -27,4 +27,4 @@
 	pager = cat
 	editor = vim
 [merge]
-	tool = vimdiff
+	tool = meld
