@@ -8,7 +8,9 @@
 	status = auto
 	ui = true
 [diff]
-	tool = vimdiff
+	tool = meld
+[push]
+	default = current
 [difftool]
 	prompt = false
 [alias]
