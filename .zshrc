@@ -1,4 +1,4 @@
-ZSH=$HOME/workspace/oh-my-zsh
+ZSH=$HOME/projects/other/oh-my-zsh
 ZSH_THEME="gallois"
 CASE_SENSITIVE="true"
 # DISABLE_AUTO_UPDATE="true"
@@ -8,6 +8,8 @@ plugins=(git rvm extract svn)
 
 source $ZSH/oh-my-zsh.sh
 HISTFILE=$HOME/.zhistory
+HISTSIZE=1000000
+SAVEHIST=1000000
 PAGER='less'
 alias lock-screen="qdbus org.freedesktop.ScreenSaver /ScreenSaver Lock"
 EDITOR='vim'
@@ -19,3 +21,5 @@ git_push_to() {
     git checkout "$1" && git pull origin "$1" && git merge "$2"  && git push origin "$1" "$2"
 }
 
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
