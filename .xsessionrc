@@ -4,3 +4,8 @@ export M2="/usr/share/maven2/bin"
 export MAVEN_OPTS="-Xmx512M -XX:MaxPermSize=512m -XX:PermSize=128m -XX:+UseParallelOldGC -Dfile.encoding=UTF8"
 synclient FingerHigh=100
 synclient FingerLow=70
+
+export TERM="xterm-256color"
+if [ -f $HOME/.Xdefaults ]; then
+  xrdb -merge $HOME/.Xdefaults
+fi
