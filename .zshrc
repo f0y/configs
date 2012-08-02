@@ -19,13 +19,12 @@ unsetopt correct_all
 alias s='setsid sublime'
 
 git_push_to() {
-
-    git checkout "$2" && git pull origin "$2" && git merge "$1"  && git push origin "$2" "$1"
+    git checkout "$1" && git pull origin "$1" && git merge `current_branch`  && git push origin "$1" `current_branch`
 }
 
 git_move_to() {
-git add web/src/main/webapp/WEB-INF/ftl/pages/service/$2 web/src/main/java/com/nvision/pgu/web/services/$2
-git commit -m "$1" web/src/main/webapp/WEB-INF/ftl/pages/service/$2 web/src/main/java/com/nvision/pgu/web/services/$2
+git add web/src/main/webapp/WEB-INF/ftl/pages/service/$2 web/src/main/java/com/nvision/pgu/web/services/$2 
+git commit -m "$1" web/src/main/webapp/WEB-INF/ftl/pages/service/$2 web/src/main/java/com/nvision/pgu/web/services/$2 
 git stash save
 LAST_COMMIT=`git rev-parse HEAD`
 FEATURE_BRANCH=`current_branch`
@@ -49,3 +48,15 @@ lame -h -b 128 $TEMP_WAV $TARGET_FILE
 
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+man() {
+    env \
+        LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+        LESS_TERMCAP_md=$(printf "\e[1;31m") \
+        LESS_TERMCAP_me=$(printf "\e[0m") \
+        LESS_TERMCAP_se=$(printf "\e[0m") \
+        LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+        LESS_TERMCAP_ue=$(printf "\e[0m") \
+        LESS_TERMCAP_us=$(printf "\e[1;32m") \
+            man "$@"
+}
