@@ -16,10 +16,11 @@ EDITOR='vim'
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 unsetopt auto_cd
 unsetopt correct_all
-alias s='setsid sublime'
+alias s='setsid sublime -a'
 
 git_push_to() {
-    git checkout "$1" && git pull origin "$1" && git merge `current_branch`  && git push origin "$1" `current_branch`
+    FEATURE_BRANCH=`current_branch`
+    git checkout "$1" && git pull origin "$1" && git merge $FEATURE_BRANCH  && git push origin "$1" $FEATURE_BRANCH && git co $FEATURE_BRANCH
 }
 
 git_move_to() {
@@ -32,9 +33,8 @@ git co $2.common
 git cherry-pick $LAST_COMMIT
 git co $FEATURE_BRANCH
 git reset --hard HEAD~1
-git merge $2.common 
-git stash apply
-    
+git merge $2.common
+git stash pop
 }
 
 extract_audio() {
@@ -43,7 +43,6 @@ echo 'writing wav to ' $TEMP_WAV
 TARGET_FILE=`basename $1`'.mp3'
 ffmpeg -i $1 $TEMP_WAV
 lame -h -b 128 $TEMP_WAV $TARGET_FILE
-
 }
 
 
