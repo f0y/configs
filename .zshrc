@@ -17,6 +17,7 @@ EDITOR='vim'
 unsetopt auto_cd
 unsetopt correct_all
 alias s='setsid sublime -a'
+alias cat=pcat
 
 git_push_to() {
     FEATURE_BRANCH=`current_branch`
@@ -43,6 +44,51 @@ echo 'writing wav to ' $TEMP_WAV
 TARGET_FILE=`basename $1`'.mp3'
 ffmpeg -i $1 $TEMP_WAV
 lame -h -b 128 $TEMP_WAV $TARGET_FILE
+}
+
+make_post() {
+    BLOG_PATH=~/projects/other/f0y.github.com/_posts
+    TITLE=$1
+    echo "Post title: $TITLE"
+    TITLE_OUT=`echo "$1" | sed -e "s/\\s/-/g"`
+    echo "Post title for output $TITLE_OUT"
+    FILENAME=$BLOG_PATH/`date +%Y-%m-%d`-$TITLE_OUT.md
+    echo "Creating file $FILENAME"
+    touch $FILENAME
+    echo -n "---
+layout: post
+title: \"$TITLE\"
+category : Programming
+---" > $FILENAME
+}
+
+m4a2mp3() {
+    for i in *.m4a; do
+    faad "$i"
+    x=`echo "$i"|sed -e 's/.m4a/.wav/'`
+    y=`echo "$i"|sed -e 's/.m4a/.mp3/'`
+    lame -h -b 192 "$x" "$y"
+    rm "$x"
+    done
+}
+
+pcat() {
+    if [ ! -x $(which pygmentize) ]; then
+        echo package \'pygmentize\' is not installed!
+        exit -1
+    fi
+     
+    if [ $# -eq 0 ]; then
+        echo usage: `basename $0` "file [file ...]"
+        exit -2
+    fi
+     
+    for FNAME in $@
+    do
+        filename=$(basename "$FNAME")
+        extension=${filename##*.}
+        pygmentize -l $extension $FNAME
+    done
 }
 
 
