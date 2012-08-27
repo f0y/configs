@@ -17,7 +17,6 @@ EDITOR='vim'
 unsetopt auto_cd
 unsetopt correct_all
 alias s='setsid sublime -a'
-alias cat=pcat
 
 git_push_to() {
     FEATURE_BRANCH=`current_branch`
@@ -36,6 +35,17 @@ git co $FEATURE_BRANCH
 git reset --hard HEAD~1
 git merge $2.common
 git stash pop
+}
+
+git_merge_with() {
+FEATURE_BRANCH=`current_branch`
+BRANCHES=$1
+for MERGE_BRANCH in $(echo $BRANCHES | tr " " "\n")
+do
+    git checkout $MERGE_BRANCH && git pull origin $MERGE_BRANCH && git merge $FEATURE_BRANCH && git push origin $MERGE_BRANCH
+done
+git co $FEATURE_BRANCH
+git push origin $FEATURE_BRANCH   
 }
 
 extract_audio() {
