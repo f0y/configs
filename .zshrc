@@ -11,7 +11,7 @@ unsetopt auto_cd
 HISTFILE=$HOME/.zhistory
 HISTSIZE=1000000
 SAVEHIST=1000000
-PAGER='less'
+PAGER='vimpager'
 EDITOR='vim'
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"

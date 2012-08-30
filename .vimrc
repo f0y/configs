@@ -220,8 +220,8 @@ set laststatus=2
 " Select when using the mouse
 " set selectmode=mouse
 " Mouse support
-set mouse=
-" set mouse=a
+" set mouse=
+set mouse=a
 " set mousemodel=popup
 " set background color
 " set background=dark
