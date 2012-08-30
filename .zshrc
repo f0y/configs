@@ -119,3 +119,7 @@ man() {
 determine_line_ending() {
     perl -p -e 's[\r\n][WIN\n]; s[(?<!WIN)\n][UNIX\n]; s[\r][MAC\n];' $1
 }
+
+kill_matching() {
+    ps aux | grep $1 | egrep -v "grep|tmux"  | awk '{ print $2 }' | xargs kill -9
+}
