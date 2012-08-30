@@ -28,7 +28,7 @@ git_push_to() {
 
 git_move_to() {
 git add web/src/main/webapp/WEB-INF/ftl/pages/service/$2 web/src/main/java/com/nvision/pgu/web/services/$2 
-git commit -m "$1" web/src/main/webapp/WEB-INF/ftl/pages/service/$2 web/src/main/java/com/nvision/pgu/web/services/$2 
+git commit -m "$1"
 git stash save
 LAST_COMMIT=`git rev-parse HEAD`
 FEATURE_BRANCH=`current_branch`
@@ -114,4 +114,8 @@ man() {
         LESS_TERMCAP_ue=$(printf "\e[0m") \
         LESS_TERMCAP_us=$(printf "\e[1;32m") \
             man "$@"
+}
+
+determine_line_ending() {
+    perl -p -e 's[\r\n][WIN\n]; s[(?<!WIN)\n][UNIX\n]; s[\r][MAC\n];' $1
 }
