@@ -2,8 +2,13 @@ export JAVA_HOME="/opt/jdk1.6.0"
 export M2_HOME="/usr/share/maven2"
 export M2="/usr/share/maven2/bin"
 export MAVEN_OPTS="-Xmx512M -XX:MaxPermSize=512m -XX:PermSize=128m -XX:+UseParallelOldGC -Dfile.encoding=UTF8"
-#synclient FingerHigh=100
-#synclient FingerLow=70
+synclient FingerHigh=100
+synclient FingerLow=90
+synclient FastTaps=1
+synclient MinSpeed=1.7
+synclient MaxSpeed=3
+synclient PalmDetect=1
+
 
 export TERM="xterm-256color"
 if [ -f $HOME/.Xdefaults ]; then
