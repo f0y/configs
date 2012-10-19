@@ -7,7 +7,7 @@ CASE_SENSITIVE="true"
 plugins=(git rvm extract svn)
 source $ZSH/oh-my-zsh.sh
 unsetopt auto_cd
-# unsetopt correct_all
+unsetopt correct_all
 HISTFILE=$HOME/.zhistory
 HISTSIZE=1000000
 SAVEHIST=1000000
@@ -48,7 +48,7 @@ do
     git checkout $MERGE_BRANCH && git pull origin $MERGE_BRANCH && git merge $FEATURE_BRANCH && git push origin $MERGE_BRANCH
 done
 git co $FEATURE_BRANCH
-git push origin $FEATURE_BRANCH   
+git push origin $FEATURE_BRANCH
 }
 
 extract_audio() {
@@ -85,22 +85,35 @@ m4a2mp3() {
     done
 }
 
-pcat() {
+o() {
     if [ ! -x $(which pygmentize) ]; then
         echo package \'pygmentize\' is not installed!
         exit -1
     fi
-     
+
     if [ $# -eq 0 ]; then
-        echo usage: `basename $0` "file [file ...]"
-        exit -2
+        echo "\n\n"
+        echo "######################"
+        echo "##  READING FROM STDIN"
+        echo "######################"
+        echo "\n\n"
+        pygmentize -g $@
     fi
      
     for FNAME in $@
     do
         filename=$(basename "$FNAME")
-        extension=${filename##*.}
-        pygmentize -l $extension $FNAME
+        lexer=`pygmentize -N \"$filename\"`
+        echo "\n\n"
+        echo "#####################"
+        echo "##  READING FROM FILE $FNAME"
+        echo "#####################\n\n"
+        if [ "Z$lexer" != "Ztext" ]; then
+            pygmentize -l $lexer "$FNAME"
+        else
+            pygmentize -g "$FNAME"
+        fi
+
     done
 }
 
