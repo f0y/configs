@@ -4,10 +4,10 @@ CASE_SENSITIVE="true"
 # DISABLE_AUTO_UPDATE="true"
 # DISABLE_AUTO_TITLE="true"
 # COMPLETION_WAITING_DOTS="true"
-plugins=(git rvm extract svn)
+plugins=(command-not-found mvn git rvm extract svn)
 source $ZSH/oh-my-zsh.sh
 unsetopt auto_cd
-unsetopt correct_all
+#unsetopt correct_all
 HISTFILE=$HOME/.zhistory
 HISTSIZE=1000000
 SAVEHIST=1000000
@@ -18,8 +18,15 @@ EDITOR='vim'
 [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
+
+PATH=$PATH:/opt/sbt/bin
+
 alias lock-screen="qdbus org.freedesktop.ScreenSaver /ScreenSaver Lock"
 alias s='setsid sublime -a'
+alias l='ls -ACF'
+alias la='ls -aAlFh'
+alias o='cat_via_pygmentize'
+alias sudo='nocorrect sudo'
 
 git_push_to() {
     FEATURE_BRANCH=`current_branch`
@@ -85,7 +92,7 @@ m4a2mp3() {
     done
 }
 
-o() {
+cat_via_pygmentize() {
     if [ ! -x $(which pygmentize) ]; then
         echo package \'pygmentize\' is not installed!
         exit -1
