@@ -28,9 +28,21 @@ alias la='ls -aAlFh'
 alias o='cat_via_pygmentize'
 alias sudo='nocorrect sudo'
 
+alias -s {avi,mpeg,mpg,mov,m2v}=mplayer
+alias -s {odt,doc,sxw,rtf}=openoffice.org
+autoload -U pick-web-browser
+alias -s {html,htm}=chromium
+
+alias ping='grc --colour=auto ping'
+alias traceroute='grc --colour=auto traceroute'
+alias make='grc --colour=auto make'
+alias diff='grc --colour=auto diff'
+alias cvs='grc --colour=auto cvs'
+alias netstat='grc --colour=auto netstat'
+
 git_push_to() {
     FEATURE_BRANCH=`current_branch`
-    git checkout "$1" && git pull origin "$1" && git merge $FEATURE_BRANCH  && git push origin "$1" $FEATURE_BRANCH && git co $FEATURE_BRANCH
+    git fetch origin && git rebase && git checkout "$1" && git rebase && git merge $FEATURE_BRANCH  && git push origin "$1" $FEATURE_BRANCH && git co $FEATURE_BRANCH
 }
 
 git_move_to() {
@@ -52,10 +64,21 @@ FEATURE_BRANCH=`current_branch`
 BRANCHES=$1
 for MERGE_BRANCH in $(echo $BRANCHES | tr " " "\n")
 do
-    git checkout $MERGE_BRANCH && git pull origin $MERGE_BRANCH && git merge $FEATURE_BRANCH && git push origin $MERGE_BRANCH
+    git checkout $MERGE_BRANCH && git fetch origin && git pull --rebase && git merge $FEATURE_BRANCH && git push origin $MERGE_BRANCH
 done
 git co $FEATURE_BRANCH
 git push origin $FEATURE_BRANCH
+}
+
+git_cp_onto() {
+CURRENT_BRANCH=`current_branch`
+COMMIT=$1
+BRANCHES=$2
+for BRANCH in $(echo $BRANCHES | tr " " "\n")
+do
+    git checkout $BRANCH && git fetch origin && git pull --rebase && git cherry-pick $COMMIT && git push origin
+done
+git co $CURRENT_BRANCH
 }
 
 extract_audio() {
