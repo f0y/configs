@@ -1,4 +1,4 @@
-export JAVA_HOME="/opt/jdk1.6.0_37"
+export JAVA_HOME="/opt/jdk1.6.0"
 export M2_HOME="/usr/share/maven2"
 export M2="/usr/share/maven2/bin"
 export MAVEN_OPTS="-Xmx512M -XX:MaxPermSize=512m -XX:PermSize=128m -XX:+UseParallelOldGC -Dfile.encoding=UTF8"

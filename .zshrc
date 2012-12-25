@@ -14,12 +14,6 @@ SAVEHIST=1000000
 PAGER='vimpager'
 EDITOR='vim'
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-[[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
-
-PATH=$PATH:/opt/sbt/bin
 
 alias lock-screen="qdbus org.freedesktop.ScreenSaver /ScreenSaver Lock"
 alias s='setsid sublime -a'
@@ -46,64 +40,12 @@ git_push_to() {
     git fetch origin && git rebase && git checkout "$1" && git rebase && git merge $FEATURE_BRANCH  && git push origin "$1" $FEATURE_BRANCH && git co $FEATURE_BRANCH
 }
 
-git_move_to() {
-git add web/src/main/webapp/WEB-INF/ftl/pages/service/$2 web/src/main/java/com/nvision/pgu/web/services/$2 
-git commit -m "$1"
-git stash save
-LAST_COMMIT=`git rev-parse HEAD`
-FEATURE_BRANCH=`current_branch`
-git co $2.common
-git cherry-pick $LAST_COMMIT
-git co $FEATURE_BRANCH
-git reset --hard HEAD~1
-git merge $2.common
-git stash pop
-}
-
-git_merge_with() {
-FEATURE_BRANCH=`current_branch`
-BRANCHES=$1
-for MERGE_BRANCH in $(echo $BRANCHES | tr " " "\n")
-do
-    git checkout $MERGE_BRANCH && git fetch origin && git pull --rebase && git merge $FEATURE_BRANCH && git push origin $MERGE_BRANCH
-done
-git co $FEATURE_BRANCH
-git push origin $FEATURE_BRANCH
-}
-
-git_cp_onto() {
-CURRENT_BRANCH=`current_branch`
-COMMIT=$1
-BRANCHES=$2
-for BRANCH in $(echo $BRANCHES | tr " " "\n")
-do
-    git checkout $BRANCH && git fetch origin && git pull --rebase && git cherry-pick $COMMIT && git push origin
-done
-git co $CURRENT_BRANCH
-}
-
 extract_audio() {
 TEMP_WAV=`mktemp`'.wav'
 echo 'writing wav to ' $TEMP_WAV
 TARGET_FILE=`basename $1`'.mp3'
 ffmpeg -i $1 $TEMP_WAV
 lame -h -b 128 $TEMP_WAV $TARGET_FILE
-}
-
-make_post() {
-    BLOG_PATH=~/projects/other/f0y.github.com/_posts
-    TITLE=$1
-    echo "Post title: $TITLE"
-    TITLE_OUT=`echo "$1" | sed -e "s/\\s/-/g"`
-    echo "Post title for output $TITLE_OUT"
-    FILENAME=$BLOG_PATH/`date +%Y-%m-%d`-$TITLE_OUT.md
-    echo "Creating file $FILENAME"
-    touch $FILENAME
-    echo -n "---
-layout: post
-title: \"$TITLE\"
-category : Programming
----" > $FILENAME
 }
 
 m4a2mp3() {
@@ -123,11 +65,6 @@ cat_via_pygmentize() {
     fi
 
     if [ $# -eq 0 ]; then
-        echo "\n\n"
-        echo "######################"
-        echo "##  READING FROM STDIN"
-        echo "######################"
-        echo "\n\n"
         pygmentize -g $@
     fi
      
@@ -135,10 +72,6 @@ cat_via_pygmentize() {
     do
         filename=$(basename "$FNAME")
         lexer=`pygmentize -N \"$filename\"`
-        echo "\n\n"
-        echo "#####################"
-        echo "##  READING FROM FILE $FNAME"
-        echo "#####################\n\n"
         if [ "Z$lexer" != "Ztext" ]; then
             pygmentize -l $lexer "$FNAME"
         else
