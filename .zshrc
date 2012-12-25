@@ -4,7 +4,7 @@ CASE_SENSITIVE="true"
 # DISABLE_AUTO_UPDATE="true"
 # DISABLE_AUTO_TITLE="true"
 # COMPLETION_WAITING_DOTS="true"
-plugins=(command-not-found mvn git rvm extract svn)
+plugins=(cp command-not-found mvn git rvm extract svn zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 unsetopt auto_cd
 #unsetopt correct_all
@@ -27,6 +27,7 @@ alias l='ls -ACF'
 alias la='ls -aAlFh'
 alias o='cat_via_pygmentize'
 alias sudo='nocorrect sudo'
+alias mvn="mvn-color"
 
 alias -s {avi,mpeg,mpg,mov,m2v}=mplayer
 alias -s {odt,doc,sxw,rtf}=openoffice.org
