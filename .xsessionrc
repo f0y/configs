@@ -1,6 +1,10 @@
 export JAVA_HOME="/opt/jdk1.6.0_37"
 export M2_HOME="/usr/share/maven2"
 export M2="/usr/share/maven2/bin"
+export M2_REPO="$HOME/.m2"
+# export M3_HOME="/usr/share/maven"
+# export M3="/usr/share/maven/bin"
+# export M3_REPO="$HOME/.m3"
 export MAVEN_OPTS="-Xmx512M -XX:MaxPermSize=512m -XX:PermSize=128m -XX:+UseParallelOldGC -Dfile.encoding=UTF8"
 export JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true"
 synclient FingerHigh=97

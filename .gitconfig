@@ -17,6 +17,7 @@
 	d = difftool
 	co = checkout
 	br = branch
+	ds = diff --staged
 	ci = commit
 	st = status
 	unstage = reset HEAD --
@@ -32,3 +33,5 @@
     promt = false
 [status]
     showUntrackedFiles = all
+[log]
+	decorate = full

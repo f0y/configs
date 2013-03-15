@@ -4,7 +4,7 @@ CASE_SENSITIVE="true"
 # DISABLE_AUTO_UPDATE="true"
 # DISABLE_AUTO_TITLE="true"
 # COMPLETION_WAITING_DOTS="true"
-plugins=(cp command-not-found mvn git rvm extract svn zsh-syntax-highlighting)
+plugins=(cp command-not-found mvn git extract svn zsh-syntax-highlighting svn encode64 rvm)
 source $ZSH/oh-my-zsh.sh
 unsetopt auto_cd
 #unsetopt correct_all
@@ -15,11 +15,13 @@ PAGER='vimpager'
 EDITOR='vim'
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-[[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
+#[[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 
-PATH=$PATH:/opt/sbt/bin
+#PATH=$PATH:/opt/sbt/bin
+PATH=$PATH:/opt/bin
+PATH=$PATH:/opt/heroku/bin
 
 alias lock-screen="qdbus org.freedesktop.ScreenSaver /ScreenSaver Lock"
 alias s='setsid sublime -a'
@@ -28,6 +30,7 @@ alias la='ls -aAlFh'
 alias o='cat_via_pygmentize'
 alias sudo='nocorrect sudo'
 alias mvn="mvn-color"
+alias netstat-listen="netstat -tulpn"
 
 alias -s {avi,mpeg,mpg,mov,m2v}=mplayer
 alias -s {odt,doc,sxw,rtf}=openoffice.org
@@ -41,9 +44,16 @@ alias diff='grc --colour=auto diff'
 alias cvs='grc --colour=auto cvs'
 alias netstat='grc --colour=auto netstat'
 
+
+git_install_hook() {
+    rm -f .git/hooks/prepare-commit-msg
+    ln -s $HOME/projects/work/utilz/git-hooks/prepare-commit-msg .git/hooks/prepare-commit-msg
+}
+
+
 git_push_to() {
     FEATURE_BRANCH=`current_branch`
-    git fetch origin && git rebase && git checkout "$1" && git rebase && git merge $FEATURE_BRANCH  && git push origin "$1" $FEATURE_BRANCH && git co $FEATURE_BRANCH
+    git fetch origin && git rebase && git checkout "$1" && git rebase && git merge $FEATURE_BRANCH && git log -1 && git push origin "$1" $FEATURE_BRANCH && git co $FEATURE_BRANCH
 }
 
 git_move_to() {
@@ -69,6 +79,18 @@ do
 done
 git co $FEATURE_BRANCH
 git push origin $FEATURE_BRANCH
+}
+
+git_switch_to() {
+DEST=$1
+PROJECTS_HOME=/home/kandaurov/projects/work/
+PROJECTS="pgu-forms-core-back pgu-forms-core-front pgu-forms-svc"
+BRANCHES=$1
+for PROJECT in $(echo $PROJECTS | tr " " "\n")
+do
+    cd "${PROJECTS_HOME}${PROJECT}" && git fetch origin && git stash save && git co $DEST && git reset --hard && git rebase && mvn clean install -Dmaven.test.skip=true
+done
+cd ${PROJECTS_HOME}
 }
 
 git_cp_onto() {
