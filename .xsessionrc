@@ -1,24 +1,9 @@
-export JAVA_HOME="/opt/jdk1.6.0_37"
+export JAVA_HOME="/opt/jdk1.6"
 export M2_HOME="/usr/share/maven2"
 export M2="/usr/share/maven2/bin"
 export M2_REPO="$HOME/.m2"
-# export M3_HOME="/usr/share/maven"
-# export M3="/usr/share/maven/bin"
-# export M3_REPO="$HOME/.m3"
 export MAVEN_OPTS="-Xmx512M -XX:MaxPermSize=512m -XX:PermSize=128m -XX:+UseParallelOldGC -Dfile.encoding=UTF8"
 export JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true"
-synclient FingerHigh=97
-synclient FingerLow=85
-synclient FastTaps=1
-synclient MinSpeed=1.7
-synclient MaxSpeed=3.2
-synclient PalmDetect=1
-synclient VertScrollDelta=-45
-synclient HorizScrollDelta=-45
-synclient TapButton1=1
-synclient TapButton2=0
-synclient TapButton3=0
-synclient TapAndDragGesture=1
 
 export TERM="xterm-256color"
 if [ -f $HOME/.Xdefaults ]; then

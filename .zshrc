@@ -4,7 +4,7 @@ CASE_SENSITIVE="true"
 # DISABLE_AUTO_UPDATE="true"
 # DISABLE_AUTO_TITLE="true"
 # COMPLETION_WAITING_DOTS="true"
-plugins=(cp command-not-found mvn git extract svn zsh-syntax-highlighting svn encode64 rvm)
+plugins=(cp sublime command-not-found mvn git extract svn zsh-syntax-highlighting svn encode64 rvm)
 source $ZSH/oh-my-zsh.sh
 unsetopt auto_cd
 #unsetopt correct_all
@@ -24,7 +24,6 @@ PATH=$PATH:/opt/bin
 PATH=$PATH:/opt/heroku/bin
 
 alias lock-screen="qdbus org.freedesktop.ScreenSaver /ScreenSaver Lock"
-alias s='setsid sublime -a'
 alias l='ls -ACF'
 alias la='ls -aAlFh'
 alias o='cat_via_pygmentize'
@@ -47,28 +46,15 @@ alias netstat='grc --colour=auto netstat'
 
 git_install_hook() {
     rm -f .git/hooks/prepare-commit-msg
-    ln -s $HOME/projects/work/utilz/git-hooks/prepare-commit-msg .git/hooks/prepare-commit-msg
+    ln -s $HOME/projects/work/fed-utilz/git-hooks/prepare-commit-msg .git/hooks/prepare-commit-msg
 }
 
 
 git_push_to() {
     FEATURE_BRANCH=`current_branch`
-    git fetch origin && git rebase && git checkout "$1" && git rebase && git merge $FEATURE_BRANCH && git log -1 && git push origin "$1" $FEATURE_BRANCH && git co $FEATURE_BRANCH
+    git fetch origin && git rebase origin/${FEATURE_BRANCH} && git checkout "$1" && git rebase origin/${1} && git merge $FEATURE_BRANCH && git log -1 && git push origin "$1" $FEATURE_BRANCH && git co $FEATURE_BRANCH
 }
 
-git_move_to() {
-git add web/src/main/webapp/WEB-INF/ftl/pages/service/$2 web/src/main/java/com/nvision/pgu/web/services/$2 
-git commit -m "$1"
-git stash save
-LAST_COMMIT=`git rev-parse HEAD`
-FEATURE_BRANCH=`current_branch`
-git co $2.common
-git cherry-pick $LAST_COMMIT
-git co $FEATURE_BRANCH
-git reset --hard HEAD~1
-git merge $2.common
-git stash pop
-}
 
 git_merge_with() {
 FEATURE_BRANCH=`current_branch`
