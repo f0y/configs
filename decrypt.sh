@@ -1,17 +1,23 @@
 #!/bin/sh
 
 # Place where wrapped-passphrase and Private.sig stored
-ECRYPT_HOME=/home/$USER/.ecryptfs 
+ECRYPT_HOME=${HOME}/.ecryptfs 
 # directory where decrypted content will be showing up
-TARGET=/home/kandaurov/Downloads/test
+TARGET=${HOME}/decrypted-ecryptfs
 # directory for encrypted content
-SOURCE=/home/kandaurov/Downloads/.test
+SOURCE=${HOME}/encrypted-ecryptfs
 
-sudo mkdir -p $TARGET
+mkdir -p $TARGET
 cd $ECRYPT_HOME
-echo Unwrapping passphrase using your password
-echo Type your password:
-PASS=$(ecryptfs-unwrap-passphrase wrapped-passphrase | sed s/Passphrase:\ //)
+
+if [ $# -ne 0 ]; then
+	echo Using password from command line
+	PASS=$1
+else
+	echo Unwrapping passphrase using your password
+	echo Type your password:
+	PASS=$(ecryptfs-unwrap-passphrase wrapped-passphrase | sed s/Passphrase:\ //)
+fi
 echo Passphrase:
 echo $PASS\n
 

@@ -4,3 +4,8 @@ XTerm*termName:  xterm-256color
 *VT100.colorBD:         red
 *VT100.colorULMode:     true
 *VT100.colorUL:         cyan
+Xft.dpi: 175
+Xft.antialias: true
+Xft.rgba: rgb 
+Xft.hinting: true
+Xft.hintstyle: hintmedium
