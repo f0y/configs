@@ -1,10 +1,8 @@
 ZSH=$HOME/projects/other/oh-my-zsh
 ZSH_THEME="gallois"
 CASE_SENSITIVE="true"
-# DISABLE_AUTO_UPDATE="true"
-# DISABLE_AUTO_TITLE="true"
 # COMPLETION_WAITING_DOTS="true"
-plugins=(colorize colored-man cp emoji-clock sublime command-not-found mvn git extract svn zsh-syntax-highlighting svn encode64 rvm)
+plugins=(colorize colored-man cp emoji-clock sublime command-not-found mvn git extract svn zsh-syntax-highlighting svn encode64 rvm git-config-per-dir)
 source $ZSH/oh-my-zsh.sh
 unsetopt auto_cd
 #unsetopt correct_all
@@ -13,6 +11,9 @@ HISTSIZE=1000000
 SAVEHIST=1000000
 PAGER='vimpager'
 EDITOR='vim'
+export GIT_CONFIG_PER_DIR_WORK_DIR=${HOME}/projects/work
+export GIT_CONFIG_PER_DIR_WORK_EMAIL="okandaurov@at-consulting.ru"
+export GIT_CONFIG_PER_DIR_PERSONAL_EMAIL="kandaurovoleg@gmail.com"
 
 PATH=$PATH:/opt/play
 
@@ -33,6 +34,7 @@ alias make='grc --colour=auto make'
 alias diff='grc --colour=auto diff'
 alias cvs='grc --colour=auto cvs'
 alias netstat='grc --colour=auto netstat'
+alias setup_tunnel_to_home='ssh -l root -L 22222:b4d4:22 deathstar.remote -N'
 
 
 git_install_hook() {
