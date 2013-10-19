@@ -1,11 +1,9 @@
 ZSH=$HOME/projects/other/oh-my-zsh
 ZSH_THEME="gallois"
 CASE_SENSITIVE="true"
-# COMPLETION_WAITING_DOTS="true"
-plugins=(colorize colored-man cp emoji-clock sublime command-not-found mvn git extract svn zsh-syntax-highlighting svn encode64 rvm git-config-per-dir)
+DISABLE_CORRECTION="false"
+plugins=(colorize colored-man cp emoji-clock sublime command-not-found mvn git extract svn zsh-syntax-highlighting svn encode64 rvm git-config-per-dir config_per_dir)
 source $ZSH/oh-my-zsh.sh
-unsetopt auto_cd
-#unsetopt correct_all
 HISTFILE=$HOME/.zhistory
 HISTSIZE=1000000
 SAVEHIST=1000000
@@ -17,9 +15,12 @@ export GIT_CONFIG_PER_DIR_PERSONAL_EMAIL="kandaurovoleg@gmail.com"
 
 PATH=$PATH:/opt/play
 
+alias jdk6='export JAVA_HOME=/usr/lib/jvm/java-6-sun'
+alias jdk7='export JAVA_HOME=/usr/lib/jvm/java-7-sun'
+
+
 alias l='ls -ACF'
 alias la='ls -aAlFh'
-alias sudo='nocorrect sudo'
 alias mvn="mvn-color"
 alias netstat-listen="netstat -tulpn"
 
@@ -36,6 +37,9 @@ alias cvs='grc --colour=auto cvs'
 alias netstat='grc --colour=auto netstat'
 alias setup_tunnel_to_home='ssh -l root -L 22222:b4d4:22 deathstar.remote -N'
 
+stream_desktop() {
+    cvlc screen:// :screen-fps=24.000000 :input-slave=alsa://pulse :screen-follow-mouse :screen-mouse-image="~/Pictures/mousepointerimage.png" :sout="#transcode{vcodec=mp2v,vb=10000,fps=24,width=1280,acodec=mp3,ab=192,channels=2,samplerate=44100} :http{dst=:18081/desk.ts}" :no-sout-rtp-sap :no-sout-standard-sap :ttl=1 :sout-keep
+}
 
 git_install_hook() {
     rm -f .git/hooks/prepare-commit-msg

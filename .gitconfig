@@ -26,6 +26,7 @@
 [core]
 	pager = cat
 	editor = vim
+	autocrlf = input
 [merge]
     ff = false
     tool = kdiff3

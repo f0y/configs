@@ -1,3 +1,4 @@
+export IDEA_JDK="/usr/lib/jvm/java-7-sun"
 export JAVA_HOME="/usr/lib/jvm/java-6-sun"
 export M2_HOME="/usr/share/maven2"
 export M2="/usr/share/maven2/bin"

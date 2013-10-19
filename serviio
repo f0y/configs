@@ -1,0 +1,155 @@
+#!/bin/bash
+#
+#########################################################
+#- Daemon script for Serviio media server
+#- By Ian Laird; converted for Debian by Jacob Lundberg
+#- /etc/init.d/serviio
+#########################################################
+#
+### BEGIN INIT INFO
+# Provides:          serviio
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# X-Interactive:     true
+# Short-Description: Start/stop serviio media server
+# Description:       The Serviio media server makes your media available to
+#                    all kinds of networked devices.
+### END INIT INFO
+
+
+. /lib/lsb/init-functions
+
+if [ -f /etc/default/rcS ]; then
+        . /etc/default/rcS
+fi
+
+
+DAEMON_STOP=" -stop"
+NAME="$(basename $0)"
+PIDFILE="/var/run/serviiod.pid"
+TIMEOUT=10
+UMASK=002
+
+NAME="Serviio Media Server"
+DAEMON="/opt/serviio/bin/serviio.sh"
+SERVICE_ACCOUNT="serviio"
+OPTS=" -server"
+
+
+if [ -f /etc/default/serviiod ]; then
+        . /etc/default/serviiod
+fi
+
+[ -x "$DAEMON" ] || exit 0
+
+
+running() {
+        if [ "x$1" == "x" ]; then
+                echo 0
+                return 1
+        fi
+
+        PS=$(ps h -p $(echo $1 | sed -r 's/[\t \n]+/ -p /') | wc -l)
+        echo $PS
+
+        if [ $PS -gt 0 ]; then
+                return 0
+        else
+                return 1
+        fi
+}
+
+
+start() {
+      # Set up correct LANG
+      if [ -r /etc/default/locale ]; then
+         . /etc/default/locale
+         export LANG LANGUAGE LC_MESSAGES LC_ALL LC_CTYPE
+      fi
+
+        log_daemon_msg "Starting Serviio media server daemon" "$NAME"
+        start-stop-daemon --start -q -b -p "$PIDFILE" -m -c "${SERVICE_ACCOUNT}" \
+            -x "${DAEMON}" --umask $UMASK -- $OPTS
+        log_end_msg $?
+}
+
+stop() {
+        log_daemon_msg "Stopping Serviio media server daemon" "$NAME"
+        if [ -r "$PIDFILE" ]; then
+                PIDS=$(pstree -p $(<"$PIDFILE") | awk -F'[\(\)]' '/^[A-Za-z0-9]/ { print $2" "$4; }')
+                if running "$PIDS" > /dev/null; then
+                        "${DAEMON}" "${DAEMON_STOP}"
+                        for PID in $PIDS; do
+                                if running $PID > /dev/null; then
+                                        kill -TERM $PID
+                                fi
+                        done
+                fi
+                COUNTDOWN=$TIMEOUT
+                while let COUNTDOWN--; do
+                        if ! running "$PIDS" > /dev/null; then
+                                break
+                        fi
+                        if [ $COUNTDOWN -eq 0 ]; then
+                                for PID in $PIDS; do
+                                        if running $PID > /dev/null; then
+                                                kill -KILL $PID
+                                        fi
+                                done
+                        else
+                                echo -n .
+                                sleep 1
+                        fi
+                done
+        fi
+
+        if running "$PIDS" > /dev/null; then
+                log_end_msg 1
+        else
+                rm -f "$PIDFILE"
+                log_end_msg $?
+        fi
+}
+
+status() {
+        echo -n "$NAME should be"
+        if [ -r "$PIDFILE" ]; then
+                echo -n " up with primary PID $(<"$PIDFILE")"
+                PIDS=$(pstree -p $(<"$PIDFILE") | awk -F'[\(\)]' '/^[A-Za-z0-9]/ { print $2" "$4; }')
+                RUNNING=$(running "$PIDS")
+                if [[ $RUNNING && $RUNNING -gt 0 ]]; then
+                        echo -n " and $RUNNING processes are running."
+                else
+                        echo -n " but it is not running."
+                fi
+        else
+                echo -n " stopped."
+        fi
+        echo
+}
+
+
+case "${1:-}" in
+        start)
+                stop
+                start
+        ;;
+        stop)
+                stop
+        ;;
+        restart)
+                stop
+                start
+        ;;
+        status)
+                status
+        ;;
+        *)
+                log_success_msg "Usage: /etc/init.d/$NAME {start|stop|restart|status}"
+                exit 1
+        ;;
+esac
+
+exit 0
