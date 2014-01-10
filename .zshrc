@@ -2,7 +2,7 @@ ZSH=$HOME/projects/other/oh-my-zsh
 ZSH_THEME="gallois"
 CASE_SENSITIVE="true"
 DISABLE_CORRECTION="false"
-plugins=(colorize colored-man cp emoji-clock sublime command-not-found mvn git extract svn zsh-syntax-highlighting svn encode64 rvm virtualenv)
+plugins=(colorize colored-man cp emoji-clock sublime command-not-found mvn git extract svn zsh-syntax-highlighting svn encode64 rvm virtualenv virtualenvwrapper)
 source $ZSH/oh-my-zsh.sh
 HISTFILE=$HOME/.zhistory
 HISTSIZE=1000000
@@ -13,12 +13,14 @@ EDITOR='vim'
 PATH=$PATH:/opt/sbt/bin
 [[ -s ${HOME}/.rvm/scripts/rvm ]] && source ${HOME}/.rvm/scripts/rvm
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+[[ -s /etc/bash_completion.d/virtualenvwrapper ]] && source /etc/bash_completion.d/virtualenvwrapper
 
 
 alias jdk6='export JAVA_HOME=/usr/lib/jvm/java-6-sun'
 alias jdk7='export JAVA_HOME=/usr/lib/jvm/java-7-sun'
 alias mvn="mvn-color"
 alias netstat-listen="netstat -tulpn"
+alias p="python"
 
 alias -s {avi,mpeg,mpg,mov,m2v}=mplayer
 alias -s {odt,doc,sxw,rtf}=openoffice.org
