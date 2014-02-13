@@ -2,7 +2,7 @@ ZSH=$HOME/projects/other/oh-my-zsh
 ZSH_THEME="gallois"
 CASE_SENSITIVE="true"
 DISABLE_CORRECTION="false"
-plugins=(colorize colored-man cp emoji-clock sublime command-not-found mvn git extract svn zsh-syntax-highlighting svn encode64 rvm virtualenv virtualenvwrapper)
+plugins=(colorize gitignore colored-man cp emoji-clock sublime command-not-found mvn git extract svn zsh-syntax-highlighting svn encode64 rvm virtualenv virtualenvwrapper)
 source $ZSH/oh-my-zsh.sh
 HISTFILE=$HOME/.zhistory
 HISTSIZE=1000000
@@ -18,9 +18,12 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 alias jdk6='export JAVA_HOME=/usr/lib/jvm/java-6-sun'
 alias jdk7='export JAVA_HOME=/usr/lib/jvm/java-7-sun'
+alias jdk8='export JAVA_HOME=/usr/lib/jvm/java-8-sun'
+alias java='${JAVA_HOME}/bin/java'
 alias mvn="mvn-color"
 alias netstat-listen="netstat -tulpn"
 alias p="python"
+alias chromium-private='/usr/bin/chromium-browser --proxy-server="http://192.168.1.50:8118" --incognito &'
 
 alias -s {avi,mpeg,mpg,mov,m2v}=mplayer
 alias -s {odt,doc,sxw,rtf}=openoffice.org
