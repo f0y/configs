@@ -1,4 +1,4 @@
-ZSH=$HOME/projects/lib/oh-my-zsh
+ZSH=$HOME/projects/oh-my-zsh
 ZSH_THEME="gallois"
 CASE_SENSITIVE="true"
 DISABLE_CORRECTION="false"
@@ -7,18 +7,9 @@ source $ZSH/oh-my-zsh.sh
 HISTFILE=$HOME/.zhistory
 HISTSIZE=1000000
 SAVEHIST=1000000
-PAGER='vimpager'
+PAGER='less'
 EDITOR='vim'
 
-PATH=$PATH:/opt/sbt/bin
-[[ -s ${HOME}/.rvm/scripts/rvm ]] && source ${HOME}/.rvm/scripts/rvm
-PATH=$PATH:$HOME/.rvm/bin
-
-alias jdk6='export JAVA_HOME=/usr/lib/jvm/java-6-sun'
-alias jdk7='export JAVA_HOME=/usr/lib/jvm/java-7-sun'
-alias jdk8='export JAVA_HOME=/usr/lib/jvm/java-8-sun'
-alias java='${JAVA_HOME}/bin/java'
-alias mvn="mvn-color"
 alias netstat-listen="netstat -tulpn"
 alias s="st -a ."
 alias chromium-private='/usr/bin/chromium-browser --proxy-server="http://192.168.1.50:8118" --incognito &'
