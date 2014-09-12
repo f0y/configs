@@ -29,7 +29,7 @@
 	autocrlf = input
 [merge]
     ff = false
-    tool = kdiff3
+    tool = meld
 [mergetool]
     promt = false
 [status]
