@@ -1,4 +1,4 @@
-ZSH=$HOME/projects/oh-my-zsh
+ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="gallois"
 CASE_SENSITIVE="true"
 DISABLE_CORRECTION="false"
@@ -12,7 +12,6 @@ EDITOR='vim'
 
 alias netstat-listen="netstat -tulpn"
 alias s="st -a ."
-alias chromium-private='/usr/bin/chromium-browser --proxy-server="http://192.168.1.50:8118" --incognito &'
 
 alias -s {avi,mpeg,mpg,mov,m2v}=mplayer
 alias -s {odt,doc,sxw,rtf}=openoffice.org
@@ -24,48 +23,6 @@ alias traceroute='grc --colour=auto traceroute'
 alias make='grc --colour=auto make'
 alias diff='grc --colour=auto diff'
 alias netstat='grc --colour=auto netstat'
-
-svndiff() {
-	svn diff "${@}" | colordiff 
-}
-
-stream_desktop() {
-    cvlc screen:// :screen-fps=24.000000 :input-slave=alsa://pulse :screen-follow-mouse :screen-mouse-image="~/Pictures/mousepointerimage.png" :sout="#transcode{vcodec=mp2v,vb=10000,fps=24,width=1280,acodec=mp3,ab=192,channels=2,samplerate=44100} :http{dst=:18081/desk.ts}" :no-sout-rtp-sap :no-sout-standard-sap :ttl=1 :sout-keep
-}
-
-extract_audio() {
-    TEMP_WAV=`mktemp`'.wav'
-    echo 'writing wav to ' $TEMP_WAV
-    TARGET_FILE=`basename $1`'.mp3'
-    ffmpeg -i $1 $TEMP_WAV
-    lame -h -b 128 $TEMP_WAV $TARGET_FILE
-}
-
-make_post() {
-    BLOG_PATH=~/projects/other/f0y.github.com/_posts
-    TITLE=$1
-    echo "Post title: $TITLE"
-    TITLE_OUT=`echo "$1" | sed -e "s/\\s/-/g"`
-    echo "Post title for output $TITLE_OUT"
-    FILENAME=$BLOG_PATH/`date +%Y-%m-%d`-$TITLE_OUT.md
-    echo "Creating file $FILENAME"
-    touch $FILENAME
-    echo -n "---
-layout: post
-title: \"$TITLE\"
-category : Programming
----" > $FILENAME
-}
-
-m4a2mp3() {
-    for i in *.m4a; do
-    faad "$i"
-    x=`echo "$i"|sed -e 's/.m4a/.wav/'`
-    y=`echo "$i"|sed -e 's/.m4a/.mp3/'`
-    lame -h -b 192 "$x" "$y"
-    rm "$x"
-    done
-}
 
 determine_line_ending() {
     perl -p -e 's[\r\n][WIN\n]; s[(?<!WIN)\n][UNIX\n]; s[\r][MAC\n];' $1

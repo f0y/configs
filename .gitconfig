@@ -8,7 +8,7 @@
 	status = auto
 	ui = true
 [diff]
-	tool = kdiff3
+	tool = meld
 [push]
 	default = current
 [difftool]
